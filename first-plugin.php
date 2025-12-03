@@ -2,7 +2,7 @@
 /**
  * Plugin Name: First Plugin
  * Description: This is my first WordPress plugin, now with PokeAPI support.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: Sergio
  * Author URI: https://sergiogomezalvarez.github.io/Portfolio/index.html
  */
@@ -58,4 +58,34 @@ function fp_show_pokemon_on_home() {
     echo "<div style='padding: 20px; max-width: 600px; margin: 40px auto; background: #f5f5f5; border-radius: 8px;'>";
     echo $pokemon_html;
     echo "</div>";
+}
+
+function pi_add_admin_menu() {
+    add_menu_page(
+        'Poké Inventory Settings',
+        'Poké Inventory',
+        'manage_options',
+        'pi_footer_message',
+        'pi_settings_page_html',
+    );
+}
+add_action('admin_menu', 'pi_add_admin_menu');
+
+function pi_settings_page_html() {
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+
+    ?>
+    <div class="wrap">
+        <h1>Poké Inventory Settings</h1>
+        <form method="post" action="options.php">
+            <?php
+            settings_fields('pi_settings_group');
+            do_settings_sections('pi_footer_message');
+            submit_button();
+            ?>
+        </form>
+    </div>
+    <?php
 }
