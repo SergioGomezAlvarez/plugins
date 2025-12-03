@@ -6,4 +6,12 @@
  * Author: Sergio
  * Author URI: https://sergiogomezalvarez.github.io/Portfolio/index.html
  */
+
+add_action('wp_footer', 'show_footer');
+
+function show_footer()
+{
+    echo "<p style='text-align: center;'>This is my first plugin!</p>";
+}
+
 ?>
