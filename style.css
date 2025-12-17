@@ -1,0 +1,28 @@
+.fp-pokemon-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 40px auto;
+    background: #64f603a6;
+    border-radius: 8px;
+}
+
+.fp-pokemon-container h2 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.fp-pokemon-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.fp-pokemon-container li {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.fp-footer-text {
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.8;
+}

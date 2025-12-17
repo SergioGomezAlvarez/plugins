@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: First Plugin
- * Description: This is my first WordPress plugin, now with PokeAPI support.
- * Version: 1.3.0
+ * Plugin Name: Poké Inventory
+ * Description: This is the Poké Inventory plugin for WordPress.
+ * Version: 1.4.0
  * Author: Sergio
  * Author URI: https://sergiogomezalvarez.github.io/Portfolio/index.html
  */
@@ -10,6 +10,21 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+/**
+ * Enqueue frontend styles for the plugin
+ */
+function fp_enqueue_styles()
+{
+    wp_enqueue_style(
+        'first-plugin-styles',
+        plugin_dir_url(__FILE__) . 'style.css',
+        [],
+        '1.4.0'
+    );
+}
+add_action('wp_enqueue_scripts', 'fp_enqueue_styles');
+
 
 add_action('wp_footer', 'fp_show_footer');
 
@@ -20,7 +35,7 @@ function fp_show_footer()
         return;
     }
 
-    echo "<p style='text-align: center;'>This is my first plugin!</p>";
+    echo "<p class='fp-footer-text'>This is my first plugin!</p>";
 }
 
 /**
@@ -67,7 +82,7 @@ function fp_show_pokemon_on_home()
 
     $pokemon_html = fp_get_pokemon_list();
 
-    echo "<div style='padding: 20px; max-width: 600px; margin: 40px auto; background: #f5f5f5; border-radius: 8px;'>";
+    echo "<div class='fp-pokemon-container'>";
     echo $pokemon_html;
     echo "</div>";
 }
