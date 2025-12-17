@@ -17,7 +17,7 @@ function fp_show_footer()
 {
 
     if (!get_option('pi_show_footer', true)) {
-        return; // Niets tonen
+        return;
     }
 
     echo "<p style='text-align: center;'>This is my first plugin!</p>";
@@ -122,28 +122,25 @@ function pi_show_footer_html()
     echo "<input type='checkbox' name='pi_show_footer' value='1' " . checked(1, $checked, false) . ">";
 }
 
-
-/**
- * Registreer instellingen
- */
+// Register Settings
 function pi_register_settings()
 {
 
-    // Aantal Pokémon
+    // Pokemon amount
     register_setting('pi_settings_group', 'pi_pokemon_limit', [
         'type' => 'integer',
         'default' => 10,
         'sanitize_callback' => 'absint'
     ]);
 
-    // Titel
+    // Title of the list
     register_setting('pi_settings_group', 'pi_pokemon_title', [
         'type' => 'string',
         'default' => 'Pokémon Lijst',
         'sanitize_callback' => 'sanitize_text_field'
     ]);
 
-    // Footer tonen
+    // Show footer text
     register_setting('pi_settings_group', 'pi_show_footer', [
         'type' => 'boolean',
         'default' => true
