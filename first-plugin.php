@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Enqueue frontend styles for the plugin
+ * Enqueue frontend styles
  */
 function fp_enqueue_styles()
 {
@@ -25,12 +25,13 @@ function fp_enqueue_styles()
 }
 add_action('wp_enqueue_scripts', 'fp_enqueue_styles');
 
-
+/**
+ * Optional footer text
+ */
 add_action('wp_footer', 'fp_show_footer');
 
 function fp_show_footer()
 {
-
     if (!get_option('pi_show_footer', true)) {
         return;
     }
@@ -39,12 +40,10 @@ function fp_show_footer()
 }
 
 /**
- * Fetches Pokémon from the PokeAPI and outputs them as HTML.
- * Usage: [pokemon_list]
+ * Fetch Pokémon from the PokeAPI
  */
 function fp_get_pokemon_list()
 {
-
     $limit = get_option('pi_pokemon_limit', 10);
     $title = get_option('pi_pokemon_title', 'Pokémon Lijst');
 
@@ -60,7 +59,8 @@ function fp_get_pokemon_list()
         return "<p>Geen Pokémon gevonden.</p>";
     }
 
-    $html = "<h2>" . esc_html($title) . "</h2><ul>";
+    $html = "<h2>" . esc_html($title) . "</h2>";
+    $html .= "<ul>";
 
     foreach ($body['results'] as $pokemon) {
         $html .= "<li>" . esc_html(ucfirst($pokemon['name'])) . "</li>";
@@ -71,22 +71,22 @@ function fp_get_pokemon_list()
     return $html;
 }
 
-add_action('wp_footer', 'fp_show_pokemon_on_home');
+/**
+ * SHORTCODE
+ * Usage: [pokemon_list]
+ */
+add_shortcode('pokemon_list', 'fp_pokemon_shortcode');
 
-function fp_show_pokemon_on_home()
+function fp_pokemon_shortcode()
 {
-
-    if (!is_front_page()) {
-        return;
-    }
-
     $pokemon_html = fp_get_pokemon_list();
 
-    echo "<div class='fp-pokemon-container'>";
-    echo $pokemon_html;
-    echo "</div>";
+    return "<div class='fp-pokemon-container'>{$pokemon_html}</div>";
 }
 
+/**
+ * Admin menu
+ */
 function pi_add_admin_menu()
 {
     add_menu_page(
@@ -94,17 +94,19 @@ function pi_add_admin_menu()
         'Poké Inventory',
         'manage_options',
         'pi_footer_message',
-        'pi_settings_page_html',
+        'pi_settings_page_html'
     );
 }
 add_action('admin_menu', 'pi_add_admin_menu');
 
+/**
+ * Settings page HTML
+ */
 function pi_settings_page_html()
 {
     if (!current_user_can('manage_options')) {
         return;
     }
-
     ?>
     <div class="wrap">
         <h1>Poké Inventory Settings</h1>
@@ -119,6 +121,9 @@ function pi_settings_page_html()
     <?php
 }
 
+/**
+ * Settings fields
+ */
 function pi_pokemon_limit_html()
 {
     $value = get_option('pi_pokemon_limit', 10);
@@ -137,25 +142,23 @@ function pi_show_footer_html()
     echo "<input type='checkbox' name='pi_show_footer' value='1' " . checked(1, $checked, false) . ">";
 }
 
-// Register Settings
+/**
+ * Register settings
+ */
 function pi_register_settings()
 {
-
-    // Pokemon amount
     register_setting('pi_settings_group', 'pi_pokemon_limit', [
         'type' => 'integer',
         'default' => 10,
         'sanitize_callback' => 'absint'
     ]);
 
-    // Title of the list
     register_setting('pi_settings_group', 'pi_pokemon_title', [
         'type' => 'string',
         'default' => 'Pokémon Lijst',
         'sanitize_callback' => 'sanitize_text_field'
     ]);
 
-    // Show footer text
     register_setting('pi_settings_group', 'pi_show_footer', [
         'type' => 'boolean',
         'default' => true
@@ -193,3 +196,4 @@ function pi_register_settings()
     );
 }
 add_action('admin_init', 'pi_register_settings');
+
