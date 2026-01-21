@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Poké Inventory
  * Description: This is the Poké Inventory plugin for WordPress.
- * Version: 1.4.0
+ * Version: 1.5.0
  * Author: Sergio
  * Author URI: https://sergiogomezalvarez.github.io/Portfolio/index.html
  */
