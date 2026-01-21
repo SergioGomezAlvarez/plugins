@@ -25,19 +25,6 @@ function fp_enqueue_styles()
 }
 add_action('wp_enqueue_scripts', 'fp_enqueue_styles');
 
-/**
- * Optional footer text
- */
-add_action('wp_footer', 'fp_show_footer');
-
-function fp_show_footer()
-{
-    if (!get_option('pi_show_footer', true)) {
-        return;
-    }
-
-    echo "<p class='fp-footer-text'>This is my first plugin!</p>";
-}
 
 /**
  * Fetch Pokémon from the PokeAPI
