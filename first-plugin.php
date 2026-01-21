@@ -20,11 +20,24 @@ function fp_enqueue_styles()
         'first-plugin-styles',
         plugin_dir_url(__FILE__) . 'style.css',
         [],
-        '1.4.0'
+        '1.5.0'
     );
 }
 add_action('wp_enqueue_scripts', 'fp_enqueue_styles');
 
+/**
+ * Footer
+ */
+add_action('wp_footer', 'fp_show_footer');
+
+function fp_show_footer()
+{
+    if (!get_option('pi_show_footer', true)) {
+        return;
+    }
+
+    echo "<p class='fp-footer-text'>This is my first plugin!</p>";
+}
 
 /**
  * Fetch Pokémon from the PokeAPI
@@ -66,10 +79,12 @@ add_shortcode('pokemon_list', 'fp_pokemon_shortcode');
 
 function fp_pokemon_shortcode()
 {
-    $pokemon_html = fp_get_pokemon_list();
+    add_action('wp_footer', 'fp_show_footer');
 
+    $pokemon_html = fp_get_pokemon_list();
     return "<div class='fp-pokemon-container'>{$pokemon_html}</div>";
 }
+
 
 /**
  * Admin menu
